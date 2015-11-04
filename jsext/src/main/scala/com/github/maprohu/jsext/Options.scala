@@ -22,7 +22,9 @@ object OptionsImpl {
     import c.universe._
     val tpe = weakTypeOf[T]
     CreateMapImpl.createMapTrf(c) { t =>
-      q"_root_.jsext.OptionsImpl.toOptions[$tpe]($t)"
+      val mod = symbolOf[OptionsImpl.type].asClass.module
+      val mem = mod.info.member(TermName("toOptions"))
+      q"$mem[$tpe]($t)"
     }
   }
 
