@@ -4,8 +4,11 @@ val commonSettings = Seq(
   organization := "com.github.maprohu",
   version := "0.1.0-SNAPSHOT",
   resolvers += Resolver.sonatypeRepo("snapshots"),
+
   scalaVersion := "2.11.7",
   publishMavenStyle := true,
+  publishArtifact in Test := false,
+  publishArtifact in (Compile, packageDoc) := false,
   publishTo := {
     val nexus = "https://oss.sonatype.org/"
     if (isSnapshot.value)
@@ -41,7 +44,6 @@ lazy val jsext = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
     name := "jsext",
-    publishArtifact in (Compile, packageDoc) := false,
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided,
       "org.scala-lang" % "scala-compiler" % scalaVersion.value % Provided
@@ -49,5 +51,5 @@ lazy val jsext = project
   )
 
 lazy val root = (project in file("."))
-  .aggregate(jsext)
   .settings(noPublish)
+  .aggregate(jsext)
