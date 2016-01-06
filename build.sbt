@@ -12,10 +12,12 @@ val commonSettings = Seq(
   publishTo := {
     val nexus = "https://oss.sonatype.org/"
     if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
+      Some(sbtglobal.SbtGlobals.snapshots)
     else
-      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+      Some(sbtglobal.SbtGlobals.devops)
   },
+  credentials += sbtglobal.SbtGlobals.devopsCredentials,
+  credentials += sbtglobal.SbtGlobals.devopsSnapshotsCredentials,
   pomIncludeRepository := { _ => false },
   licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php")),
   homepage := Some(url(s"https://github.com/maprohu/${githubRepo}")),
