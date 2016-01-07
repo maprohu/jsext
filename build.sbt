@@ -1,23 +1,23 @@
 val githubRepo = "jsext"
 
+val repo = "http://localhost:38084"
+val snapshots = "snapshots" at s"$repo/snapshots"
+val releases = "releases" at s"$repo/releases"
+
 val commonSettings = Seq(
   organization := "com.github.maprohu",
   version := "0.1.0-SNAPSHOT",
-  resolvers += Resolver.sonatypeRepo("snapshots"),
 
   scalaVersion := "2.11.7",
   publishMavenStyle := true,
   publishArtifact in Test := false,
   publishArtifact in (Compile, packageDoc) := false,
   publishTo := {
-    val nexus = "https://oss.sonatype.org/"
     if (isSnapshot.value)
-      Some(sbtglobal.SbtGlobals.snapshots)
+      Some(snapshots)
     else
-      Some(sbtglobal.SbtGlobals.devops)
+      Some(releases)
   },
-  credentials += sbtglobal.SbtGlobals.devopsCredentials,
-  credentials += sbtglobal.SbtGlobals.devopsSnapshotsCredentials,
   pomIncludeRepository := { _ => false },
   licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php")),
   homepage := Some(url(s"https://github.com/maprohu/${githubRepo}")),
